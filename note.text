@@ -1,0 +1,151 @@
+MERN 
+
+mongo/ express/ react/ node
+
+
+Frontend     backend
+ react       mongo/express/node
+
+
+ for backend folder => server.js / npm i express / app create => nodemon server.js run
+
+PORT store => .env file mr => PORT =400
+npm page => dotenv => dotenv i
+
+logging middleware => morgan middleware=> norgan npm
+npm i morgan
+
+
+routes/ recipes.js => 
+const express = require('express');
+const RecipeController = require ('../controllers/RecipeController');
+
+const router = express.Router();
+
+//get all recipes
+router.get('/api/recipes',RecipeController.index);
+//post update single recipe
+router.post('/api/recipes',RecipeController.store);
+//get single recipe
+router.get('/api/recipes/:id',RecipeController.show);
+//delete single recipe
+router.delete('/api/recipes/:id',RecipeController.destroy);
+//patch update single recipe
+router.patch('/api/recipes/:id',RecipeController.update);
+
+
+module.exports = router;
+
+controllers/RecipeController.js =>
+
+const RecipeController = {
+    index : (req,res) => {
+        return res.json({msg : "Get all recipes"});
+    },
+    store : (req,res) => {
+        return res.json({msg : "store recipes"});
+    },
+    show : (req,res) => {
+        return res.json({msg : "get single recipes"});
+    },
+    destroy : (req,res) => {
+        return res.json({msg : "delete recipes"});
+    },
+    patch : (req,res) => {
+        return res.json({msg : "update recipes"});
+    }
+
+};
+
+module.exports = RecipeController;
+
+npm i mongoose => mogodb connect lote phoe
+
+post man => post method => body => raw 
+{
+    "title" : "Cake",
+    "description" : "How ro make a cake ? ",
+    "ingredients" : ["3 eggs", "water"]
+}  
+
+data par phoe => app.use(express.json());
+
+tailwind css => vite  +> very fast
+install tailwind css with vite
+
+npm create vite@latest frontend -- --template react 
+cd frontend
+ npm install  
+  npm install -D tailwindcss postcss autoprefixer
+  npx tailwindcss init -p
+
+tailowind config.js => contact 
+src/index.css =>
+ @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+npm run dev 
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+
+
+react router 
+
+npm create vite@latest name-of-your-project -- --template react
+# follow prompts
+cd <your new project directory>
+npm install react-router-dom localforage match-sorter sort-by
+npm run dev
+
+
+main.jsx =>
+// <h1 className="text-blue-500 text-3xl" >Hello World tailwind</h1>
+
+
+ok test
+
+npm cors => on backend => npm i cors
+
+cd frontend => npm i axios
+
+pagination frontend =>tailwindcss
+
+
+<p>What's your name? My name is Ryan.Where are you from? I'm from Sydney.
+            What's your phone number?.My phone number is 09.blur blur blur.What's your 
+            email address? My email address is yuki7@gmail.com.</p>
+
+
+
+npm install bcrypt
+//123456(asfsgdh) (random state) - 23r4thnhmyk => hex
+//123456rttuooj - qw12434yjuk
+
+
+//Node js authentication => must know Cookie 101
+
+//npm i cookie-parser
+
+JWT token
+              Request
+login form = ------------------>   SERVER
+              Email,Password         |
+                                DataBase  --> JWT token -> random string
+                                  /
+                                /
+                Email,Password check
+
+
+
+jwt.io => 
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+
+npm i jsonwebtoken
+
+express validation/ custom validation
+
+customizing express-validAator

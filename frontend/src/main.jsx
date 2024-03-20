@@ -7,6 +7,8 @@ import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
 import RecipeForm from './pages/RecipeForm.jsx';
 import SignUpForm from './pages/SignUpForm.jsx';
+import SignInForm from './pages/SignInForm.jsx';
+
 
 import {
   createBrowserRouter,
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
       {
         path : "/sign-up",
         element : <SignUpForm/>
+      },
+      {
+        path : "/sign-In",
+        element : <SignInForm/>
       }
     ]
   },

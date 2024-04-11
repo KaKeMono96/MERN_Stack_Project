@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import plus from'../assets/plus.svg';
 import Ingredients from '../components/Ingredients';
 import axios from 'axios';
@@ -48,8 +47,6 @@ export default function RecipeForm() {
 
     if (id){
        res = await axios.patch('http://localhost:8000/api/recipes', + id, recipe);
-
-      
     }else {
        res = await axios.post('http://localhost:8000/api/recipes', recipe);
     }

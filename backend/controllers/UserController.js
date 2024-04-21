@@ -9,6 +9,7 @@ const userController = {
 
     register : async (req, res) => {
         //return res.send(createToken('123'));
+        console.log("Hello");
         try {
             let { name, email, password } = req.body;
             let user = await User.register(name, email, password);

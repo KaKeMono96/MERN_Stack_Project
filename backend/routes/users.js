@@ -7,7 +7,9 @@ const User = require('../models/User')
 
 router.post('/login', UserController.login )
 
+
 router.post('/register',[
+
 
     body('name').notEmpty(),
     body('email').notEmpty(),

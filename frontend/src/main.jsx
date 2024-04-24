@@ -20,31 +20,31 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "/", //http://localhost:5173/
+        path: "/", //http://localhost:8000/
         element: <Home />
       },
       {
-        path: "/about", //http://localhost:5173/about
+        path: "/about", //http://localhost:8000/about
         element: <About />
       },
       {
-        path: "/contact", //http://localhost:5173/contact
+        path: "/contact", //http://localhost:8000/contact
         element: <Contact />
       },
       {
-        path: "/recipes/create", //http://localhost:5173/recipes/create
+        path: "/recipes/create", //http://localhost:8000/recipes/create
         element: <RecipeForm />
       },
       {
-        path: "/recipes/edit/:id", //http://localhost:5173/recipes/edit/id
+        path: "/recipes/edit/:id", //http://localhost:8000/recipes/edit/id
         element: <RecipeForm />
       },
       {
-        path: "/sign-in", //http://localhost:5173/sign-in
+        path: "/sign-in", //http://localhost:8000/sign-in
         element: <SignInForm />
       },
       {
-        path: "/sign-up", //http://localhost:5173/sign-up
+        path: "/sign-up", //http://localhost:8000/sign-up
         element: <SignUpForm />
       },
     ]

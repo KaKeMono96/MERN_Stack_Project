@@ -6,8 +6,10 @@ const userRoutes = require('./routes/users');
 const mongoose = require('mongoose');
 const cors = require ('cors');
 const cookieParser = require ('cookie-parser');
+const AuthMiddleware = require('./middlewares/AuthMiddleware');
 
 const app = express();
+app.use(express.static('public'))
 const mongoURL = "mongodb+srv://yuki:test123@mern-cluster.fpos9ft.mongodb.net/?retryWrites=true&w=majority&appName=MERN-cluster"
 
 mongoose.connect(mongoURL).then(() => {
@@ -32,7 +34,7 @@ app.get('/', (req,res) =>{
     return res.json({hello : 'world'});
 })
 
-app.use('/api/recipes',recipesRoutes)
+app.use('/api/recipes',AuthMiddleware,recipesRoutes)
 app.use('/api/users', userRoutes)
 
 app.get('/set-cookie', (req,res) => {

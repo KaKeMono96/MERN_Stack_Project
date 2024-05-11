@@ -15,8 +15,10 @@ const userController = {
             
         }
 
+
         // return res.json({msg : 'user login api hit '});
     },
+  
 
     register : async (req, res) => {
         //return res.send(createToken('123'));
@@ -32,6 +34,12 @@ const userController = {
             return res.status(400).json({error : e.message});
 
     }
+    },
+
+    logout : (req,res) => {
+        res.cookie ('jwt','', {  maxAge : 1 });
+        return res.json({message : "user logged out"});
+
     }
     
 }

@@ -9,6 +9,8 @@ export default function RecipeForm() {
     let navigate = useNavigate();
     let [ingredients, setIngredients] = useState([]);
     let [title, setTitle] = useState('');
+    let [file, setFile] = useState(null);
+    let [preview, setPreview] = useState(null);
     let [description, setDescription] = useState('');
     let [newIngredient, setNewIngredient] = useState('');
     let [errors, setErrors] = useState([]);
@@ -18,6 +20,7 @@ export default function RecipeForm() {
             if (id) {
                 let res = await axios.get('/api/recipes/' + id);
                 if (res.status === 200) {
+                    setPreview(import.meta.env.VITE_BACKEND_URL+res.data.photo);
                     setTitle(res.data.title);
                     setDescription(res.data.description);
                     setIngredients(res.data.ingredients);
@@ -47,6 +50,18 @@ export default function RecipeForm() {
             } else {
                 res = await axios.post('/api/recipes', recipe);
             }
+            //file
+            let formData = new FormData;
+            formData.set('photo',file);
+
+            //upload
+            let uploadRes = await axios.post(`/api/recipes/${res.data._id}/upload`,
+                formData, {
+                    headers : {
+                        Accept : "multipart/form-data"
+                    }
+            })
+            console.log(uploadRes);
             if (res.status === 200) {
                 navigate('/');
             }
@@ -54,6 +69,19 @@ export default function RecipeForm() {
             setErrors(Object.keys(e.response.data.errors));
         }
     }
+
+    let upload = (e) => {
+        let file = e.target.files[0];
+        setFile(file);
+        //preview
+        let fileReader = new FileReader;
+        fileReader.onload = (e) => {
+            setPreview(e.target.result);
+
+        }
+        fileReader.readAsDataURL(file);
+    }
+
     return (
         <div className="mx-auto max-w-md border-2 border-white p-4">
             <h1 className="mb-6 text-2xl font-bold text-orange-400 text-center">Recipe {id ? 'Edit' : 'Create'} Form</h1>
@@ -63,6 +91,8 @@ export default function RecipeForm() {
                         <li className='text-red-500 text-sm' key={i}>{error} is invalid value</li>
                     ))}
                 </ul>
+                <input type="file" onChange={upload}/>
+                {preview && <img src= {preview} alt=''/>}
                 <input value={title} onChange={e => setTitle(e.target.value)} type="text" placeholder="Recipe Title" className="w-full p-1" />
                 <textarea value={description} onChange={e => setDescription(e.target.value)} placeholder="Recipe Description" rows="5" className="w-full p-1" />
                 <div className="flex space-x-2 items-center">

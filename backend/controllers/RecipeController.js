@@ -1,5 +1,6 @@
 const Recipe = require("../models/Recipe");
 const mongoose = require ('mongoose');
+const removeFile = require('../helpers/removeFile');
 
 const RecipeController = {
     index : async(req,res) => {
@@ -82,6 +83,9 @@ const RecipeController = {
             }
             
             let recipe = await Recipe.findByIdAndDelete(id);
+            
+            await removeFile(__dirname+"/../public"+recipe.photo);
+
             if(!recipe){
                 return res.status(404).json({msg : 'recipe not found'});
     
@@ -103,6 +107,9 @@ const RecipeController = {
             let recipe = await Recipe.findByIdAndUpdate(id,{
                 ...req.body
             });
+
+            await removeFile(__dirname+"/../public"+recipe.photo);
+            
             if(!recipe){
                 return res.status(404).json({msg : 'recipe not found'});
     
@@ -112,11 +119,25 @@ const RecipeController = {
             return res.status(500).json({msg : 'internet server error'});
            }
     },
-    upload : (req,res) => {
+    upload : async(req,res) => {
         try {
             //
-            console.log(req.file);
-            return res.json({image : 'uploaded'});
+            let id = req.params.id;
+
+            if(!mongoose.Types.ObjectId.isValid(id)){
+                
+                return res.status(400).json({msg : 'not a valid id'});
+            }
+            
+            let recipe = await Recipe.findByIdAndUpdate(id,{
+                photo : '/' + req.file.filename
+            });
+
+            if(!recipe){
+                return res.status(404).json({msg : 'recipe not found'});
+    
+            }
+            return res.json(recipe);
 
         }catch(e) {
             console.log(e);

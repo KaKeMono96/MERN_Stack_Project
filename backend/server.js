@@ -7,6 +7,12 @@ const mongoose = require('mongoose');
 const cors = require ('cors');
 const cookieParser = require ('cookie-parser');
 const AuthMiddleware = require('./middlewares/AuthMiddleware');
+const cron = require('node-cron');
+const User = require('./models/User');
+const sendEmail = require('./helpers/sendEmail');
+
+
+
 
 const app = express();
 app.use(express.static('public'))
@@ -16,6 +22,11 @@ mongoose.connect(mongoURL).then(() => {
     console.log('connected to db');
     app.listen(process.env.PORT, () => {
         console.log('app is running on localhost:'+process.env.PORT);
+        cron.schedule('*/4 * * * * *',async () => {
+            let user = await User.findByIdAndUpdate('662a01dd171f5cda9496d3e8',{
+                name : "mgmg" + Math.random()
+            });
+        });
     })
 })
 
@@ -29,6 +40,9 @@ app.use(cors(
 app.use(express.json());
 app.use(morgan('dev'))
 app.use(cookieParser())
+app.set('views','./views');
+app.set('view engine','ejs');
+
 
 app.get('/', (req,res) =>{
     return res.json({hello : 'world'});
@@ -43,8 +57,26 @@ app.get('/set-cookie', (req,res) => {
     return res.send('cookie already set');
 })
 
+app.get('/send-email',(req,res) => {
+    sendEmail({
+        view :'email',
+        data: {
+            name : "AungAung"
+        },
+        from : "mgmg@gmail.com",
+        to : "aungaung@gmail.com",
+        subject: "Hello AungAung "
+    });
+    
+      return res.send('email already sent');
+
+    
+})
+
 app.get('/get-cookie', (req,res) => {
     let cookies = req.cookies;
     return res.json(cookies);
 })
+
+
 

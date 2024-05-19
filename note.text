@@ -168,3 +168,14 @@ ep120 authContext
       { !!links && < Pagination links={links} page= {page || 1} />}
 
     </div>
+file upload
+
+npm i node-cron 
+ cron.schedule('*/4 * * * * *', () => {
+            console.log('running a task every 4 seconds');
+
+        });
+
+email send => package = nodemailer
+
+mailtrap => local development test => to send email

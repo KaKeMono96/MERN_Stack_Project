@@ -179,3 +179,5 @@ npm i node-cron
 email send => package = nodemailer
 
 mailtrap => local development test => to send email
+
+queue => redis install on window

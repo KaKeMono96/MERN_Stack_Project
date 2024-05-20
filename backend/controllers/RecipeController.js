@@ -1,6 +1,10 @@
 const Recipe = require("../models/Recipe");
 const mongoose = require ('mongoose');
 const removeFile = require('../helpers/removeFile');
+const User =require("../models/User");
+const emailQueue = require('../queues/emailQueue');
+
+
 
 const RecipeController = {
     index : async(req,res) => {
@@ -49,11 +53,30 @@ const RecipeController = {
                 description,
                 ingredients
             });
+
+            let users = await User.find(null,['email']);
+            let emails = users.map(user => user.email);
+            emails = emails.filter(email =>  email != req.user.email);
+
+            //email queue
+            emailQueue.add({
+                view :'email',
+                data: {
+                    name : req.user.name,
+                    recipe
+                },
+        
+                from : req.user.email,
+                to : emails,
+                subject: "New Recipe is created by someone."
+        
+            });
+            
     
-        return res.json(recipe);
+            return res.json(recipe);
 
         }catch(e) {
-            return res.status(400).json({msg : "invalid fields"});
+            return res.status(400).json({msg : e.message});
         }
     },
     show : async(req,res) => {

@@ -180,6 +180,13 @@ email send => package = nodemailer
 
 mailtrap => local development test => to send email
 
-queue => redis install on window
+queue => redis install on window / 16.6.2024
 
-16.6.2024
+in backend  => npm i bull
+
+read doc => step by step =>  redis thwin =>
+
+
+
+
+

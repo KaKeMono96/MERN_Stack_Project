@@ -1,6 +1,6 @@
 const express = require('express');
-require('dotenv').config()
-const morgan = require ('morgan')
+require('dotenv').config();
+const morgan = require ('morgan');
 const recipesRoutes = require ('./routes/recipes');
 const userRoutes = require('./routes/users');
 const mongoose = require('mongoose');
@@ -12,22 +12,28 @@ const User = require('./models/User');
 const sendEmail = require('./helpers/sendEmail');
 
 
-
-
 const app = express();
-app.use(express.static('public'))
-const mongoURL = "mongodb+srv://yuki:test123@mern-cluster.fpos9ft.mongodb.net/?retryWrites=true&w=majority&appName=MERN-cluster"
+app.use(express.static('public'));
+//const mongoURL = "mongodb+srv://user2:kkmCDZuFS9w1wPeb@mern-cluster.fpos9ft.mongodb.net/?retryWrites=true&w=majority&appName=MERN-cluster";
 
-mongoose.connect(mongoURL).then(() => {
+
+
+
+mongoose.connect(process.env.mongoURL).then(() => {
     console.log('connected to db');
+
     app.listen(process.env.PORT, () => {
         console.log('app is running on localhost:'+process.env.PORT);
         cron.schedule('*/4 * * * * *',async () => {
-            let user = await User.findByIdAndUpdate('662a01dd171f5cda9496d3e8',{
+            let user = await User.findByIdAndUpdate('662a01dd171f5cda9496d3e',{
                 name : "mgmg" + Math.random()
             });
         });
     })
+})
+.catch(err => {
+    console.error('Could not connect to mongodb...', err.message);
+    process.exit(1);
 })
 
 app.use(cors(
@@ -38,8 +44,8 @@ app.use(cors(
 ))
 //app.use(cors());// local development-- Warning--
 app.use(express.json());
-app.use(morgan('dev'))
-app.use(cookieParser())
+app.use(morgan('dev'));
+app.use(cookieParser());
 app.set('views','./views');
 app.set('view engine','ejs');
 
@@ -48,19 +54,20 @@ app.get('/', (req,res) =>{
     return res.json({hello : 'world'});
 })
 
-app.use('/api/recipes',AuthMiddleware,recipesRoutes)
-app.use('/api/users', userRoutes)
+app.use('/api/recipes',AuthMiddleware,recipesRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/set-cookie', (req,res) => {
     //res.setHeader('Set-Cookie', 'name = KaKeMono');
     res.cookie('name', 'aungaung');
+    res.cookie('important-key','value',{httpOnly :true});
     return res.send('cookie already set');
 })
 
 app.get('/send-email',async(req,res) => {
     try {
         await sendEmail({
-            view :'email',
+            view :'test',
             data: {
                 name : "AungAung"
             },

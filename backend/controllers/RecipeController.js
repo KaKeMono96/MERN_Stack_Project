@@ -76,7 +76,7 @@ const RecipeController = {
             return res.json(recipe);
 
         }catch(e) {
-            return res.status(400).json({msg : e.message});
+            return res.status(500).json({msg : e.message});
         }
     },
     show : async(req,res) => {
